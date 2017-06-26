@@ -1,3 +1,12 @@
+To get the docker image of slate do the following steps:
+
+1. mkdir /var/slate.
+2. Fork repository on Github.
+3. Clone your forked repository to your hard drive with git clone https://github.com/YOURUSERNAME/slate.git /var/slate
+4. cd /var/slate
+5. Then do docker-compose up -d --build
+
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/lord/img/master/logo-slate.png" alt="Slate: API Documentation Generator" width="226">
   <br>
