@@ -23,11 +23,11 @@ under the License.
     <title><%= current_page.data.title || "Inmar API Reference" %></title>
     <meta name="description" content="<%= current_page.data.title || "Documentation of the Inmar's API." %>">
 
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>   
     <link href="https://static.portal.inmar.com/inmar-b2b-bootstrap-theme/1.1.0/main.min.css" rel="stylesheet">
     <script type="text/javascript" src="http://static.portal.inmar.com/b2b-portal-login/0.9.0/login.min.js"></script>
     <script type="text/javascript" src="http://static.portal.inmar.com/b2b-portal-navbar/0.5.3/navbar.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+   
    
 
 
@@ -59,7 +59,20 @@ const navbarConfigPromise = Promise.resolve({
     ]
   }
 })
-window.inm.login
+window.inm.login.setConfig({
+  auth0: {                                          // (Required) Auth0 configuration property
+    domain: 'inmarb2bsso-dev.auth0.com',
+    clientID: 'CGMMwknQftr0RW2krhiFdqNjalLs0ZoS',
+    adAccounts: 'B2BDevInm',
+    clientAccounts: 'Client-Accounts'
+  },
+  services: {                                       // (Required) Tenant Master API URL 
+    clientUser: {
+      address: 'client-user-api.test.aws-nonprod.psn.inmar.com'
+    }
+  },
+  applicationName: '<b>DevOps</b>Portal'       // (Optional) String of the application name as it will appear on the login screen. HTML supported.
+})
   .getToken()
   .then(token => window.inm.navbar.load(navbarConfigPromise))
   .then(() => console.log("Navbar loaded!"))
