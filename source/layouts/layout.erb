@@ -20,10 +20,19 @@ under the License.
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title><%= current_page.data.title || "API Documentation" %></title>
+    <title><%= current_page.data.title || "Inmar API Reference" %></title>
+    <meta name="description" content="<%= current_page.data.title || "Documentation of the Inmar's API." %>">
+
+
+    <link href="https://static.portal.inmar.com/inmar-b2b-bootstrap-theme/1.1.0/main.min.css" rel="stylesheet">
+    <script type="text/javascript" src="http://static.portal.inmar.com/b2b-portal-login/0.9.0/login.min.js"></script>
+    <script type="text/javascript" src="http://static.portal.inmar.com/b2b-portal-navbar/0.5.3/navbar.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+   
+
 
     <style>
-      <%= Rouge::Themes::MonokaiSublime.render(:scope => '.highlight') %>
+      <%= Rouge::Themes::Base16::Monokai.render(:scope => '.highlight') %>
     </style>
     <%= stylesheet_link_tag :screen, media: :screen %>
     <%= stylesheet_link_tag :print, media: :print %>
@@ -35,14 +44,39 @@ under the License.
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
-    <a href="#" id="nav-button">
+  
+
+  <portal-navbar data-turbolinks-permanent id="portal-navbar"></portal-navbar>  
+  
+<script>
+// create a navbar config promise to pass in when the navbar load function is called
+const navbarConfigPromise = Promise.resolve({
+  navbar: {
+    displayName: '<b>DevOps</b>Portal',
+    navigation: [
+      { title: "Forum", uri: "/forum/" },
+      { title: "API Documnetation", uri: "/documentation/" },
+    ]
+  }
+})
+window.inm.login
+  .getToken()
+  .then(token => window.inm.navbar.load(navbarConfigPromise))
+  .then(() => console.log("Navbar loaded!"))
+  
+</script>
+
+  <a href="#" id="nav-button">
       <span>
         NAV
         <%= image_tag('navbar.png') %>
       </span>
     </a>
-    <div class="tocify-wrapper">
+    <div class="tocify-wrapper br b--black-10">
       <%= image_tag "logo.png" %>
+
+
+
       <% if language_tabs.any? %>
         <div class="lang-selector">
           <% language_tabs.each do |lang| %>
