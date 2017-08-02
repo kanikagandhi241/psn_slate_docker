@@ -52,13 +52,20 @@ under the License.
 // create a navbar config promise to pass in when the navbar load function is called
 const navbarConfigPromise = Promise.resolve({
   navbar: {
-    displayName: '<b>DevOps</b>Portal',
+    displayName: '<b>Developers</b>Portal',
     navigation: [
       { title: "Forum", uri: "/forum/" },
       { title: "API Documnetation", uri: "/documentation/" },
     ]
   }
 })
+var getPortalConfig = function(){
+return new Promise((res, rej){
+  $.get('config.json', null, function(d){
+    res(d.data.portal)
+})
+})
+}
 window.inm.login.setConfig({
   auth0: {                                          // (Required) Auth0 configuration property
     domain: 'inmarb2bsso-dev.auth0.com',
@@ -74,7 +81,10 @@ window.inm.login.setConfig({
   applicationName: '<b>DevOps</b>Portal'       // (Optional) String of the application name as it will appear on the login screen. HTML supported.
 })
   .getToken()
-  .then(token => window.inm.navbar.load(navbarConfigPromise))
+  .then(()=>getPortalConfig())
+  .catch(()=>navbarConfigPromise())
+  )
+  .then(config => window.inm.navbar.load(config))
   .then(() => console.log("Navbar loaded!"))
   
 </script>
